@@ -1,0 +1,24 @@
+#using docker compose to build and bringup container
+#purpose: using docker compose, we can make sure we bring application stack in desired order along with 
+#         port mapping(-p), volume mapping(-v), links(--link)
+#difference: infinite-loop-1 uses scripts present on host side mount to run the start-up scripts.
+#            infinite-loop-2 uses scripts copied during image building process and run the same as startup script.
+
+
+version: '3'
+services:
+        infinite-loop-1:            #building new image using docker-compose
+                   build:
+                          context: /home/jarvis/docker/project-2
+                          dockerfile: /home/jarvis/docker/project-2/Dockerfile
+                   image: infinite-loop:v1    #name the newly builded image
+                   container_name: loop1      #name the container [ same as $(docker run --name "loop1" infinite_loop:v1) ]
+                   volumes: #use volume mapping [ same as $(docker run --name "loop1" -v /home/jarvis/docker/project-1:/root/scripts infinite-loop1]
+                          - /home/jarvis/docker/project-1:/root/scripts
+        
+        infinite-loop-2:
+                     build:
+                           context: /home/jarvis/docker/project-1
+                           dockerfile: /home/jarvis/docker/project-1/Dockerfile
+                     image: infinite-loop:v2    #create and tag image
+                     container_name: loop2      #name the container
