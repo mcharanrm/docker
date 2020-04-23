@@ -1,0 +1,9 @@
+#running infinite loop using sh interpreter
+
+
+while true
+	do
+		echo "test" 
+		sleep 5
+	done > /dev/null
+		

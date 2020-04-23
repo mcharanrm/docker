@@ -4,14 +4,14 @@
 FROM alpine:latest
 
 #Update and Install bash interpreter
-RUN apk update && \
-    apk add bash && \
-    mkdir /root/scripts && \
-    export PATH=$PATH:/root/scripts
+#RUN apk update && \
+#   apk add bash && \ executing loop without using bash interpreter and minimizing size of image
+#    mkdir /root/scripts && \
+#    export PATH=$PATH:/root/scripts
 
 #Copy scripts from local host to container
-COPY . /root/scripts/
+COPY . /root
 
 #Startup script
-ENTRYPOINT ["/root/scripts/loop.sh",">","/dev/null"]
+ENTRYPOINT ["/bin/sh","/root/infinite_loop"]
 
